@@ -3,13 +3,6 @@ import { ListItem } from 'material-ui/List';
 import ActionBookmarkBorder from 'material-ui/svg-icons/action/bookmark-border';
 import ActionBookmark from 'material-ui/svg-icons/action/bookmark';
 
-function totalPrice(expenses, numFormat) {
-  let total = expenses.reduce((sum, expense) => (
-    sum + parseInt(expense.price_cents)
-  ), 0);
-  return numFormat.format(total / 100);
-}
-
 class ExpenseGroup extends Component {
   constructor(props) {
     super(props);
@@ -29,7 +22,7 @@ class ExpenseGroup extends Component {
   }
 
   formatPrice(price) {
-    return this.props.numFormat.format(price);
+    return this.props.numberFormat(price);
   }
 
   nestedItems() {

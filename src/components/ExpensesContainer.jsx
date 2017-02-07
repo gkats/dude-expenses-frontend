@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import ExpensesList from './ExpensesList';
+import ExpenseForm from './ExpenseForm';
 
 const expenses = [
   {
@@ -50,21 +51,49 @@ const expenses = [
 class ExpensesContainer extends Component {
   constructor(props) {
     super(props);
-    this.btnClicked = this.btnClicked.bind(this);
+    this.state = { showForm: false };
+    this.buttonClicked = this.buttonClicked.bind(this);
+    this.formClosed = this.formClosed.bind(this);
+    this.formSubmitted = this.formSubmitted.bind(this);
   }
 
-  btnClicked(e) {
-    e.preventDefault();
-    console.log('show form')
+  buttonClicked(e) {
+    this.setState({ showForm: true });
+  }
+
+  formClosed(e) {
+    this.setState({ showForm: false });
+  }
+
+  formSubmitted(e) {
+    console.log('form submitted')
   }
 
   render() {
+    const numberFormat = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'usd'
+    }).format;
+    const dateTimeFormat = new Intl.DateTimeFormat('en-US', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric'
+    }).format;
+
     return (
       <div>
-        <ExpensesList expenses={expenses} locale="en-US" currency="usd" />
-        <FloatingActionButton onClick={this.btnClicked}>
+        <ExpensesList expenses={expenses} numberFormat={numberFormat} />
+        <FloatingActionButton onTouchTap={this.buttonClicked}>
           <ContentAdd />
         </FloatingActionButton>
+        <ExpenseForm
+          visible={this.state.showForm}
+          onSubmit={this.formSubmitted}
+          onClose={this.formClosed}
+          numberFormat={numberFormat}
+          dateTimeFormat={dateTimeFormat}
+          price="1000"
+        />
       </div>
     );
   }

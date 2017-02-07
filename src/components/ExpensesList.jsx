@@ -23,10 +23,6 @@ function groupByDate(expenses) {
 
 const ExpensesList = (props) => {
   let grouped = groupByDate(props.expenses);
-  let numFormat = Intl.NumberFormat(props.locale, {
-    style: 'currency',
-    currency: props.currency
-  });
 
   return (
     <List>
@@ -36,7 +32,7 @@ const ExpensesList = (props) => {
             key={date}
             date={date}
             expenses={grouped[date]}
-            numFormat={numFormat}
+            numberFormat={props.numberFormat}
           />
         ))
       }

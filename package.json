@@ -1,0 +1,38 @@
+{
+  "name": "dude-expenses-frontend",
+  "version": "1.0.0",
+  "description": "Frontend for the dude expenses app.",
+  "main": "index.js",
+  "scripts": {
+    "start": "./node_modules/webpack-dev-server/bin/webpack-dev-server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gkats/dude-expenses-frontend.git"
+  },
+  "private": true,
+  "author": "Giannis Katsanos",
+  "engines": {
+    "node": "^6.9.4",
+    "npm": "^3.10.10"
+  },
+  "bugs": {
+    "url": "https://github.com/gkats/dude-expenses-frontend/issues"
+  },
+  "homepage": "https://github.com/gkats/dude-expenses-frontend#readme",
+  "dependencies": {
+    "material-ui": "^0.16.7",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2",
+    "react-tap-event-plugin": "^2.0.1"
+  },
+  "devDependencies": {
+    "babel-core": "^6.22.1",
+    "babel-loader": "^6.2.10",
+    "babel-preset-env": "^1.1.8",
+    "babel-preset-react": "^6.22.0",
+    "webpack": "^2.2.1",
+    "webpack-dev-server": "^2.3.0"
+  }
+}

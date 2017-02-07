@@ -30,6 +30,20 @@ const expenses = [
     price_cents: '4000',
     date: '2017-01-07T11:00:00Z',
     tag: 'gas'
+  },
+
+  {
+    id: 5,
+    price_cents: '3200',
+    date: '2017-01-19T15:38:20Z',
+    tag: 'gas'
+  },
+
+  {
+    id: 6,
+    price_cents: '0850',
+    date: '2017-01-07T13:00:00Z',
+    tag: 'food'
   }
 ];
 
@@ -47,7 +61,7 @@ class ExpensesContainer extends Component {
   render() {
     return (
       <div>
-        <ExpensesList expenses={expenses} />
+        <ExpensesList expenses={expenses} locale="en-US" currency="usd" />
         <FloatingActionButton onClick={this.btnClicked}>
           <ContentAdd />
         </FloatingActionButton>

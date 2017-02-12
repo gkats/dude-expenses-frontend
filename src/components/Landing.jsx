@@ -1,12 +1,12 @@
 import React from 'react';
 import SignIn from './SignIn';
-import SignUpContainer from './SignUpContainer';
+import SignUp from './SignUp';
 
 const Landing = () => (
   <div>
-    This is the landing page
+    Landing page
     <SignIn />
-    <SignUpContainer />
+    <SignUp />
   </div>
 );
 

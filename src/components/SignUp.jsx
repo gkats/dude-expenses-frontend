@@ -1,48 +1,48 @@
-import React, { PropTypes } from 'react';
-import TextField from 'material-ui/TextField';
-import RaisedButton from 'material-ui/RaisedButton';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { changeField, submitForm } from '../actions/signup';
+import { authenticateUser } from '../actions/users';
+import UserForm from './UserForm';
 
-const errorsFor = (errors, name) => {
-  if (errors && Object.keys(errors).length && errors[name]) {
-    return errors[name].join(', ');
+class SignUp extends Component {
+  constructor(props) {
+    super(props);
+    this.formSubmitted = this.formSubmitted.bind(this);
   }
-  return null;
+
+  componentWillReceiveProps(nextProps) {
+    if (!Object.keys(this.props.user).length && Object.keys(nextProps.user).length) {
+      this.props.onSignUpSuccess(this.props.fields);
+    }
+  }
+
+  formSubmitted(e) {
+    this.props.onFormSubmit(this.props.fields);
+  }
+
+  render() {
+    return (
+      <UserForm
+        onChange={this.props.onFieldChange}
+        onSubmit={this.formSubmitted}
+        fields={this.props.fields}
+        errors={this.props.errors}
+        buttonLabel="Sign up"
+      />
+    );
+  }
 };
 
-const SignUp = ({ onChange, onSubmit, fields, errors }) => (
-  <div>
-    <TextField
-      type="email"
-      name="email"
-      value={fields.email}
-      floatingLabelText="Email"
-      hintText="your@email.com"
-      errorText={errorsFor(errors, 'email')}
-      onChange={onChange}
-    />
-    <TextField
-      type="password"
-      name="password"
-      value={fields.password}
-      floatingLabelText="Password"
-      hintText="At least 6 characters"
-      errorText={errorsFor(errors, 'password')}
-      onChange={onChange}
-    />
-    <RaisedButton label="Sign Up" onTouchTap={onSubmit} primary={true} />
-  </div>
-);
+const mapStateToProps = (state) => ({
+  fields: state.signup.get('fields').toJS(),
+  errors: state.signup.get('errors'),
+  user: state.users.get('user').toJS()
+});
 
-SignUp.propTypes = {
-  onChange: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired,
-  fields: PropTypes.object,
-  errors: PropTypes.object
-};
+const mapDispatchToProps = (dispatch) =>({
+  onFieldChange: (event, value) => { dispatch(changeField(event.target.name, value)); },
+  onFormSubmit: (params) => { dispatch(submitForm(params)) },
+  onSignUpSuccess: (params) => { dispatch(authenticateUser(params)); }
+});
 
-SignUp.defaultProps = {
-  fields: {},
-  errors: {}
-};
-
-export default SignUp;
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp);

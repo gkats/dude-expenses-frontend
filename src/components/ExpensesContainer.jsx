@@ -1,52 +1,20 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
+import { fetchExpenses } from '../actions/expenses';
 import ExpensesList from './ExpensesList';
 import ExpenseForm from './ExpenseForm';
 
-const expenses = [
-  {
-    id: 1,
-    price_cents: '2000',
-    date: '2017-01-01T08:50:00Z',
-    tag: 'food'
-  },
-
-  {
-    id: 2,
-    price_cents: '2500',
-    date: '2017-01-01T18:50:00Z',
-    tag: 'drinks'
-  },
-
-  {
-    id: 3,
-    price_cents: '1550',
-    date: '2017-01-10T08:50:00Z',
-    tag: 'food'
-  },
-
-  {
-    id: 4,
-    price_cents: '4000',
-    date: '2017-01-07T11:00:00Z',
-    tag: 'gas'
-  },
-
-  {
-    id: 5,
-    price_cents: '3200',
-    date: '2017-01-19T15:38:20Z',
-    tag: 'gas'
-  },
-
-  {
-    id: 6,
-    price_cents: '0850',
-    date: '2017-01-07T13:00:00Z',
-    tag: 'food'
-  }
-];
+const numberFormat = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'usd'
+}).format;
+const dateTimeFormat = new Intl.DateTimeFormat('en-US', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric'
+}).format;
 
 class ExpensesContainer extends Component {
   constructor(props) {
@@ -55,6 +23,10 @@ class ExpensesContainer extends Component {
     this.buttonClicked = this.buttonClicked.bind(this);
     this.formClosed = this.formClosed.bind(this);
     this.formSubmitted = this.formSubmitted.bind(this);
+  }
+
+  componentDidMount() {
+    this.props.onMount(this.props.accessToken);
   }
 
   buttonClicked(e) {
@@ -69,20 +41,27 @@ class ExpensesContainer extends Component {
     console.log('form submitted')
   }
 
-  render() {
-    const numberFormat = new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'usd'
-    }).format;
-    const dateTimeFormat = new Intl.DateTimeFormat('en-US', {
-      day: 'numeric',
-      month: 'long',
-      year: 'numeric'
-    }).format;
+  hasExpenses() {
+    return this.props.expenses && this.props.expenses.length;
+  }
 
+  renderBlankSlate() {
+    return <div>You don't have any expenses. Start adding now!</div>;
+  }
+
+  renderExpensesList() {
+    return (
+      <ExpensesList
+        expenses={this.props.expenses}
+        numberFormat={numberFormat}
+      />
+    );
+  }
+
+  render() {
     return (
       <div>
-        <ExpensesList expenses={expenses} numberFormat={numberFormat} />
+        { this.hasExpenses() ? this.renderExpensesList() : this.renderBlankSlate() }
         <FloatingActionButton onTouchTap={this.buttonClicked}>
           <ContentAdd />
         </FloatingActionButton>
@@ -92,11 +71,19 @@ class ExpensesContainer extends Component {
           onClose={this.formClosed}
           numberFormat={numberFormat}
           dateTimeFormat={dateTimeFormat}
-          price="1000"
         />
       </div>
     );
   }
 };
 
-export default ExpensesContainer;
+const mapStateToProps = (state) => ({
+  expenses: state.expenses.get('expenses').toJS(),
+  accessToken: state.auth.token
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onMount: (token) => (dispatch(fetchExpenses(token)))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ExpensesContainer);

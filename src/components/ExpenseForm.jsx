@@ -30,7 +30,7 @@ const ExpenseForm = ({
 
   return (
     <Dialog
-      title="Add an expense"
+      title="What did you spend?"
       open={visible}
       onRequestClose={onClose}
       actions={actions}

@@ -24,7 +24,10 @@ class NewExpenseContainer extends Component {
   render() {
     return (
       <div>
-        <FloatingActionButton onTouchTap={this.props.onAddClick}>
+        <FloatingActionButton
+          onTouchTap={this.props.onAddClick}
+          style={{ position: 'fixed', right: '16px', bottom: '16px' }}
+        >
           <ContentAdd />
         </FloatingActionButton>
         <ExpenseForm

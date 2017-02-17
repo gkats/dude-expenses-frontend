@@ -17,7 +17,7 @@ function signIn(state = initialState, action) {
     case SIGN_IN_FORM_VALIDATED:
       return state.set('errors', action.errors)
     case USERS_AUTHENTICATE_SUCCESS:
-      return initialState;
+      return state.merge(initialState);
     case USERS_AUTHENTICATE_ERROR:
       return state.set('errors', action.errors);
     default:

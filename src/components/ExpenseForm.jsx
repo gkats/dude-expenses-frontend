@@ -1,58 +1,94 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import Dialog from 'material-ui/Dialog';
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import DatePicker from 'material-ui/DatePicker';
+import PriceField from './PriceField';
 
-const ExpenseForm = (props) => {
+const errorsFor = (errors, name) => {
+  if (errors && Object.keys(errors).length && errors[name]) {
+    return errors[name].join(', ');
+  }
+  return null;
+};
+
+const ExpenseForm = ({
+  visible, onClose, onSubmit, onChange, fields, errors,  dateTimeFormat
+}) => {
   let actions = [
     <FlatButton
       label="Cancel"
-      onTouchTap={props.onClose}
+      onTouchTap={onClose}
     />,
     <RaisedButton
       label="Save"
       primary={true}
-      onTouchTap={props.onSubmit}
+      onTouchTap={onSubmit}
     />
   ];
 
   return (
     <Dialog
       title="Add an expense"
-      open={props.visible}
-      onRequestClose={props.onClose}
+      open={visible}
+      onRequestClose={onClose}
       actions={actions}
       modal={true}
     >
-      <form onSubmit={props.onSubmit}>
-        <TextField
-          floatingLabelText="Price"
-          hintText={props.numberFormat(0)}
+      <div>
+        <PriceField
+          name="priceCents"
           autoFocus="true"
-          value={props.price ? props.numberFormat(props.price / 100) : ''}
+          floatingLabelText="Price"
+          value={fields.priceCents}
+          onChange={(event, value) => onChange('priceCents', value)}
+          errorText={errorsFor(errors, 'priceCents')}
+          currency="$"
         />
         <TextField
+          name="tag"
           floatingLabelText="Tag"
           hintText="e.g. food"
-          value={props.tag}
+          value={fields.tag}
+          onChange={(event, value) => onChange('tag', value)}
+          errorText={errorsFor(errors, 'tag')}
         />
         <DatePicker
+          name="date"
           floatingLabelText="Date"
-          formatDate={props.dateTimeFormat}
-          value={props.date}
+          formatDate={dateTimeFormat}
+          value={fields.date}
+          onChange={(event, value) => onChange('date', value)}
         />
         <TextField
+          name="notes"
           floatingLabelText="Notes (optional)"
           hintText="Add your notes here..."
           multiLine={true}
           rows={2}
-          value={props.notes}
+          value={fields.notes}
+          onChange={(event, value) => onChange('notes', value)}
         />
-      </form>
+      </div>
     </Dialog>
   );
 };
+
+ExpenseForm.propTypes = {
+  onChange: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
+  dateTimeFormat: PropTypes.func.isRequired,
+  visible: PropTypes.bool,
+  fields: PropTypes.object,
+  errors: PropTypes.object
+};
+
+ExpenseForm.defaultProps = {
+  visible: true,
+  fields: {},
+  errors: {}
+}
 
 export default ExpenseForm;

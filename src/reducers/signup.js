@@ -17,7 +17,7 @@ function signup(state = initialState, action) {
     case SIGNUP_FORM_VALIDATED:
       return state.set('errors', action.errors)
     case USERS_CREATE_SUCCESS:
-      return initialState;
+      return state.merge(initialState);
     case USERS_CREATE_ERROR:
       return state.set('errors', action.errors);
     default:

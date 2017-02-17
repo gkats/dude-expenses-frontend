@@ -4,13 +4,15 @@ import signup from './signup';
 import signIn from './signIn';
 import users from './users';
 import expenses from './expenses';
+import newExpense from './newExpense';
 
 const app = combineReducers({
   auth,
   users,
   signup,
   signIn,
-  expenses
+  expenses,
+  newExpense
 });
 
 export default app;

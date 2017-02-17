@@ -16,7 +16,7 @@ class ExpenseGroup extends Component {
 
   totalPrice() {
     let total = this.props.expenses.reduce((sum, expense) => (
-      sum + parseInt(expense.price_cents)
+      sum + parseInt(expense.priceCents)
     ), 0);
     return this.formatPrice(total / 100);
   }
@@ -29,7 +29,7 @@ class ExpenseGroup extends Component {
     return this.props.expenses.map((expense) => (
       <ListItem key={expense.id}>
         <div>{ expense.tag }</div>
-        <div>{ this.formatPrice(expense.price_cents / 100) }</div>
+        <div>{ this.formatPrice(expense.priceCents / 100) }</div>
       </ListItem>
     ));
   }

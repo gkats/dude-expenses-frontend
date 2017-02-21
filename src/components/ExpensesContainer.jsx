@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchExpenses } from '../actions/expenses';
+import muiThemeable from 'material-ui/styles/muiThemeable';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import Link from 'react-router/lib/Link';
 import ExpensesList from './ExpensesList';
+import NoExpenses from './NoExpenses';
 import NewExpenseContainer from './NewExpenseContainer';
 
 const numberFormat = new Intl.NumberFormat('en-US', {
@@ -22,7 +24,9 @@ class ExpensesContainer extends Component {
   }
 
   renderBlankSlate() {
-    return <div>You don't have any expenses. Start adding now!</div>;
+    return (
+      <NoExpenses color={this.props.muiTheme.palette.disabledColor} />
+    );
   }
 
   renderExpensesList() {
@@ -60,4 +64,4 @@ const mapDispatchToProps = (dispatch) => ({
   onMount: (token) => dispatch(fetchExpenses(token))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ExpensesContainer);
+export default muiThemeable()(connect(mapStateToProps, mapDispatchToProps)(ExpensesContainer));

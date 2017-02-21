@@ -58,7 +58,7 @@ class NewExpenseContainer extends Component {
           iconElementLeft={closeButton()}
           iconElementRight={this.saveButton()}
         />
-        <div style={{ maxWidth: '256px', margin: '0 auto' }}>
+        <div style={{ margin: '0 auto' }}>
           <ExpenseForm
             onChange={this.props.onFieldChange}
             onSubmit={this.formSubmitted}

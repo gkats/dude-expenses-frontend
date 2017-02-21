@@ -30,9 +30,8 @@ class PriceField extends React.Component {
   render() {
     return (
       <div>
-        {this.props.currency}
         <TextField
-          hintText="0.00"
+          hintText={this.props.numberFormat(0)}
           type="tel"
           pattern="[0-9]*"
           noValidate
@@ -42,6 +41,7 @@ class PriceField extends React.Component {
           autoFocus={this.props.autoFocus}
           errorText={this.props.errorText}
           floatingLabelText={this.props.floatingLabelText}
+          style={{ maxWidth: '128px' }}
         />
       </div>
     );

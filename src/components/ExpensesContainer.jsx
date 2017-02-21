@@ -9,7 +9,7 @@ import NewExpenseContainer from './NewExpenseContainer';
 
 const numberFormat = new Intl.NumberFormat('en-US', {
   style: 'currency',
-  currency: 'usd'
+  currency: 'eur'
 }).format;
 
 class ExpensesContainer extends Component {

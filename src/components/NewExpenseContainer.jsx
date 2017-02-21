@@ -13,6 +13,11 @@ const dateTimeFormat = new Intl.DateTimeFormat('en-US', {
   year: 'numeric'
 }).format;
 
+const numberFormat = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'eur'
+}).format;
+
 const redirectToRoot = () => {
   window.location = "/";
 };
@@ -49,19 +54,22 @@ class NewExpenseContainer extends Component {
     return (
       <div>
         <AppBar
-          title="Dude, where's my expenses?"
+          title="Add expense"
           iconElementLeft={closeButton()}
           iconElementRight={this.saveButton()}
         />
-        <ExpenseForm
-          onChange={this.props.onFieldChange}
-          onSubmit={this.formSubmitted}
-          onClose={redirectToRoot}
-          dateTimeFormat={dateTimeFormat}
-          fields={this.props.fields}
-          errors={this.props.errors}
-          showActions={false}
-        />
+        <div style={{ maxWidth: '256px', margin: '0 auto' }}>
+          <ExpenseForm
+            onChange={this.props.onFieldChange}
+            onSubmit={this.formSubmitted}
+            onClose={redirectToRoot}
+            dateTimeFormat={dateTimeFormat}
+            fields={this.props.fields}
+            errors={this.props.errors}
+            showActions={false}
+            numberFormat={numberFormat}
+          />
+        </div>
       </div>
     );
   }

@@ -14,7 +14,8 @@ const errorsFor = (errors, name) => {
 };
 
 const ExpenseForm = ({
-  onClose, onSubmit, onChange, fields, errors,  dateTimeFormat, showActions
+  onClose, onSubmit, onChange, fields, errors,  dateTimeFormat, showActions,
+  numberFormat
 }) => {
   let actions = (
     <div>
@@ -31,7 +32,7 @@ const ExpenseForm = ({
   );
 
   return (
-    <div>
+    <form onSubmit={onSubmit}>
       <PriceField
         name="priceCents"
         autoFocus="true"
@@ -39,7 +40,7 @@ const ExpenseForm = ({
         value={fields.priceCents}
         onChange={(event, value) => onChange('priceCents', value)}
         errorText={errorsFor(errors, 'priceCents')}
-        currency="$"
+        numberFormat={numberFormat}
       />
       <TextField
         name="tag"
@@ -59,14 +60,13 @@ const ExpenseForm = ({
       <TextField
         name="notes"
         floatingLabelText="Notes (optional)"
-        hintText="Add your notes here..."
         multiLine={true}
         rows={2}
         value={fields.notes}
         onChange={(event, value) => onChange('notes', value)}
       />
       { showActions ? actions : null }
-    </div>
+    </form>
   );
 };
 

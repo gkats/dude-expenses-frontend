@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchExpenses } from '../actions/expenses';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import ContentAdd from 'material-ui/svg-icons/content/add';
+import Link from 'react-router/lib/Link';
 import ExpensesList from './ExpensesList';
 import NewExpenseContainer from './NewExpenseContainer';
 
@@ -35,7 +38,14 @@ class ExpensesContainer extends Component {
     return (
       <div>
         { this.hasExpenses() ? this.renderExpensesList() : this.renderBlankSlate() }
-        <NewExpenseContainer />
+
+        <Link to="/expenses/new">
+          <FloatingActionButton
+            style={{ position: 'fixed', right: '16px', bottom: '16px' }}
+          >
+            <ContentAdd />
+          </FloatingActionButton>
+        </Link>
       </div>
     );
   }

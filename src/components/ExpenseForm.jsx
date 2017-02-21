@@ -14,64 +14,59 @@ const errorsFor = (errors, name) => {
 };
 
 const ExpenseForm = ({
-  visible, onClose, onSubmit, onChange, fields, errors,  dateTimeFormat
+  onClose, onSubmit, onChange, fields, errors,  dateTimeFormat, showActions
 }) => {
-  let actions = [
-    <FlatButton
-      label="Cancel"
-      onTouchTap={onClose}
-    />,
-    <RaisedButton
-      label="Save"
-      primary={true}
-      onTouchTap={onSubmit}
-    />
-  ];
+  let actions = (
+    <div>
+      <FlatButton
+        label="Cancel"
+        onTouchTap={onClose}
+      />
+      <RaisedButton
+        label="Save"
+        primary={true}
+        onTouchTap={onSubmit}
+      />
+    </div>
+  );
 
   return (
-    <Dialog
-      title="What did you spend?"
-      open={visible}
-      onRequestClose={onClose}
-      actions={actions}
-      modal={true}
-    >
-      <div>
-        <PriceField
-          name="priceCents"
-          autoFocus="true"
-          floatingLabelText="Price"
-          value={fields.priceCents}
-          onChange={(event, value) => onChange('priceCents', value)}
-          errorText={errorsFor(errors, 'priceCents')}
-          currency="$"
-        />
-        <TextField
-          name="tag"
-          floatingLabelText="Tag"
-          hintText="e.g. food"
-          value={fields.tag}
-          onChange={(event, value) => onChange('tag', value)}
-          errorText={errorsFor(errors, 'tag')}
-        />
-        <DatePicker
-          name="date"
-          floatingLabelText="Date"
-          formatDate={dateTimeFormat}
-          value={fields.date}
-          onChange={(event, value) => onChange('date', value)}
-        />
-        <TextField
-          name="notes"
-          floatingLabelText="Notes (optional)"
-          hintText="Add your notes here..."
-          multiLine={true}
-          rows={2}
-          value={fields.notes}
-          onChange={(event, value) => onChange('notes', value)}
-        />
-      </div>
-    </Dialog>
+    <div>
+      <PriceField
+        name="priceCents"
+        autoFocus="true"
+        floatingLabelText="Price"
+        value={fields.priceCents}
+        onChange={(event, value) => onChange('priceCents', value)}
+        errorText={errorsFor(errors, 'priceCents')}
+        currency="$"
+      />
+      <TextField
+        name="tag"
+        floatingLabelText="Tag"
+        hintText="e.g. food"
+        value={fields.tag}
+        onChange={(event, value) => onChange('tag', value)}
+        errorText={errorsFor(errors, 'tag')}
+      />
+      <DatePicker
+        name="date"
+        floatingLabelText="Date"
+        formatDate={dateTimeFormat}
+        value={fields.date}
+        onChange={(event, value) => onChange('date', value)}
+      />
+      <TextField
+        name="notes"
+        floatingLabelText="Notes (optional)"
+        hintText="Add your notes here..."
+        multiLine={true}
+        rows={2}
+        value={fields.notes}
+        onChange={(event, value) => onChange('notes', value)}
+      />
+      { showActions ? actions : null }
+    </div>
   );
 };
 

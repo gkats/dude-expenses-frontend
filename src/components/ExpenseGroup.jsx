@@ -119,7 +119,7 @@ class ExpenseGroup extends Component {
   render() {
     return (
       <div style={{padding: '6px'}}>
-        <Card onClick={this.clicked}>
+        <Card onTouchTap={this.clicked}>
           <ListItem innerDivStyle={{padding: '6px'}}>
             <CardTitle title={this.groupTitle()} style={{ padding: '6px' }} />
             { this.state.open ? this.renderNestedGroup() : null }

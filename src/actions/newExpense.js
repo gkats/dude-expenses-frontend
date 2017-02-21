@@ -25,13 +25,3 @@ export const submitForm = (authToken, data) => {
     }
   }
 };
-
-export const NEW_EXPENSE_ADD_CLICKED = 'NEW_EXPENSE_ADD_CLICKED';
-export const addClick = () => ({
-  type: NEW_EXPENSE_ADD_CLICKED
-});
-
-export const NEW_EXPENSE_CANCEL_CLICKED = 'NEW_EXPENSE_CANCEL_CLICKED';
-export const cancelClick = () => ({
-  type: NEW_EXPENSE_CANCEL_CLICKED
-});

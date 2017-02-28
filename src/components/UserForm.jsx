@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react';
 import TextField from 'material-ui/TextField';
-import RaisedButton from 'material-ui/RaisedButton';
 
 const errorsFor = (errors, name) => {
   if (errors && Object.keys(errors).length && errors[name]) {
@@ -9,8 +8,8 @@ const errorsFor = (errors, name) => {
   return null;
 };
 
-const UserForm = ({ onChange, onSubmit, fields, errors, buttonLabel }) => (
-  <div>
+const UserForm = ({ onChange, onSubmit, fields, errors }) => (
+  <form onSubmit={onSubmit} style={{ maxWidth: '256px', margin: '0 auto'}}>
     <TextField
       type="email"
       name="email"
@@ -29,22 +28,19 @@ const UserForm = ({ onChange, onSubmit, fields, errors, buttonLabel }) => (
       errorText={errorsFor(errors, 'password')}
       onChange={onChange}
     />
-    <RaisedButton label={buttonLabel} onTouchTap={onSubmit} primary={true} />
-  </div>
+  </form>
 );
 
 UserForm.propTypes = {
   onChange: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   fields: PropTypes.object,
-  errors: PropTypes.object,
-  buttonLabel: PropTypes.string
+  errors: PropTypes.object
 };
 
 UserForm.defaultProps = {
   fields: {},
-  errors: {},
-  buttonLabel: 'Submit'
+  errors: {}
 };
 
 export default UserForm;

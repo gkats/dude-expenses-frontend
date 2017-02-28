@@ -9,6 +9,8 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import AppTheme from '../theme';
 import AppContainer from './AppContainer';
 import NewExpenseContainer from './NewExpenseContainer';
+import SignUp from './SignUp';
+import SignIn from './SignIn';
 
 const MuiThemed = (props) => (
   <MuiThemeProvider muiTheme={getMuiTheme(AppTheme)}>
@@ -21,6 +23,8 @@ const Root = ({ store }) => (
     <Router history={browserHistory}>
       <Route path="/" component={MuiThemed}>
         <IndexRoute component={AppContainer} />
+        <Route path="sign_up" component={SignUp} />
+        <Route path="sign_in" component={SignIn} />
         <Route path="expenses/new" component={NewExpenseContainer} />
       </Route>
     </Router>

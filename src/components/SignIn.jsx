@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import muiThemeable from 'material-ui/styles/muiThemeable';
 import { changeField, submitForm } from '../actions/signIn';
+import Link from 'react-router/lib/Link';
+import AppBar from 'material-ui/AppBar';
+import FlatButton from 'material-ui/FlatButton';
+import Paper from 'material-ui/Paper';
+import CloseButton from './CloseButton';
 import UserForm from './UserForm';
 
 class SignIn extends Component {
@@ -15,13 +21,30 @@ class SignIn extends Component {
 
   render() {
     return (
-      <UserForm
-        onChange={this.props.onFieldChange}
-        onSubmit={this.formSubmitted}
-        fields={this.props.fields}
-        errors={this.props.errors}
-        buttonLabel="Sign in"
-      />
+      <div>
+        <AppBar
+          title="Welcome"
+          iconElementLeft={<CloseButton iconStyle={{color: '#fff'}} />}
+          iconElementRight={<FlatButton onTouchTap={this.formSubmitted} label="Sign in"/>}
+        />
+        <div style={{maxWidth: '460px', margin: '0 auto'}}>
+          <Paper style={{ paddingBottom: '3rem' }}>
+            <UserForm
+              onChange={this.props.onFieldChange}
+              onSubmit={this.formSubmitted}
+              fields={this.props.fields}
+              errors={this.props.errors}
+            />
+            <div style={{marginTop: '2rem', textAlign: 'center', fontWeight: '300', fontSize: '16px'}}>
+              Don't have an account?
+              <Link to="/sign_up" style={{marginLeft: '5px', marginRight: '5px', textDecoration: 'none', color: this.props.muiTheme.palette.primary1Color}}>
+                Sign up
+              </Link>
+              now.
+            </div>
+          </Paper>
+        </div>
+      </div>
     );
   }
 };
@@ -36,4 +59,4 @@ const mapDispatchToProps = (dispatch) => ({
   onFormSubmit: (params) => { dispatch(submitForm(params)) }
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignIn);
+export default muiThemeable()(connect(mapStateToProps, mapDispatchToProps)(SignIn));

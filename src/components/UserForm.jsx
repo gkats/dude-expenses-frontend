@@ -18,6 +18,7 @@ const UserForm = ({ onChange, onSubmit, fields, errors }) => (
       hintText="your@email.com"
       errorText={errorsFor(errors, 'email')}
       onChange={onChange}
+      autoFocus={true}
     />
     <TextField
       type="password"

@@ -9,10 +9,20 @@ import Paper from 'material-ui/Paper';
 import CloseButton from './CloseButton';
 import UserForm from './UserForm';
 
+const redirectToRoot = () => {
+  window.location = "/";
+};
+
 class SignIn extends Component {
   constructor(props) {
     super(props);
     this.formSubmitted = this.formSubmitted.bind(this);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (!this.props.success && nextProps.success) {
+      redirectToRoot();
+    }
   }
 
   formSubmitted(e) {
@@ -51,7 +61,8 @@ class SignIn extends Component {
 
 const mapStateToProps = (state) => ({
   fields: state.signIn.get('fields').toJS(),
-  errors: state.signIn.get('errors')
+  errors: state.signIn.get('errors'),
+  success: state.signup.get('success')
 });
 
 const mapDispatchToProps = (dispatch) => ({

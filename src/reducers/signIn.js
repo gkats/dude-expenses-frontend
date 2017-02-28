@@ -7,7 +7,9 @@ const initialState = Map({
     email: '',
     password: ''
   }),
-  errors: {}
+  errors: {},
+  success: false,
+  error: false
 });
 
 function signIn(state = initialState, action) {
@@ -17,9 +19,16 @@ function signIn(state = initialState, action) {
     case SIGN_IN_FORM_VALIDATED:
       return state.set('errors', action.errors)
     case USERS_AUTHENTICATE_SUCCESS:
-      return state.merge(initialState);
+      return state.merge(initialState, {
+        success: true,
+        error: false
+      });
     case USERS_AUTHENTICATE_ERROR:
-      return state.set('errors', action.errors);
+      return state.merge({
+        errors: action.errors,
+        error: true,
+        success: false
+      });
     default:
       return state;
   };

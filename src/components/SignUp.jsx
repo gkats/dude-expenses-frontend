@@ -10,6 +10,10 @@ import Paper from 'material-ui/Paper';
 import CloseButton from './CloseButton';
 import UserForm from './UserForm';
 
+const redirectToRoot = () => {
+  window.location = "/";
+};
+
 class SignUp extends Component {
   constructor(props) {
     super(props);
@@ -18,7 +22,10 @@ class SignUp extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (!Object.keys(this.props.user).length && Object.keys(nextProps.user).length) {
-      this.props.onSignUpSuccess(this.props.fields);
+      this.props.onSignUpComplete(this.props.fields);
+    }
+    if (!this.props.success && nextProps.success) {
+      redirectToRoot();
     }
   }
 
@@ -62,13 +69,14 @@ class SignUp extends Component {
 const mapStateToProps = (state) => ({
   fields: state.signup.get('fields').toJS(),
   errors: state.signup.get('errors'),
-  user: state.users.get('user').toJS()
+  success: state.signup.get('success'),
+  user: state.users.get('user').toJS(),
 });
 
 const mapDispatchToProps = (dispatch) =>({
   onFieldChange: (event, value) => { dispatch(changeField(event.target.name, value)); },
   onFormSubmit: (params) => { dispatch(submitForm(params)) },
-  onSignUpSuccess: (params) => { dispatch(authenticateUser(params)); }
+  onSignUpComplete: (params) => { dispatch(authenticateUser(params)); }
 });
 
 export default muiThemeable()(connect(mapStateToProps, mapDispatchToProps)(SignUp));

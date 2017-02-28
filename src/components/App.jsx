@@ -1,14 +1,14 @@
 import React from 'react';
-import AppBar from 'material-ui/AppBar';
+import { connect } from 'react-redux';
 import ExpensesContainer from './ExpensesContainer';
+import Landing from './Landing';
 
-const App = () => (
-  <div>
-    <AppBar title="All expenses" />
-    <div style={{ maxWidth: '900px', margin: '0 auto' }}>
-      <ExpensesContainer />
-    </div>
-  </div>
+const App = (props) => (
+  props.authToken ? <ExpensesContainer /> : <Landing />
 );
 
-export default App;
+const mapStateToProps = (state) => ({
+  authToken: state.auth.token
+});
+
+export default connect(mapStateToProps)(App);

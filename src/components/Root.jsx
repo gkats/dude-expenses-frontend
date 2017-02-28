@@ -7,7 +7,7 @@ import browserHistory from 'react-router/lib/browserHistory';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import AppTheme from '../theme';
-import AppContainer from './AppContainer';
+import App from './App';
 import NewExpenseContainer from './NewExpenseContainer';
 import SignUp from './SignUp';
 import SignIn from './SignIn';
@@ -22,7 +22,7 @@ const Root = ({ store }) => (
   <Provider store={store}>
     <Router history={browserHistory}>
       <Route path="/" component={MuiThemed}>
-        <IndexRoute component={AppContainer} />
+        <IndexRoute component={App} />
         <Route path="sign_up" component={SignUp} />
         <Route path="sign_in" component={SignIn} />
         <Route path="expenses/new" component={NewExpenseContainer} />

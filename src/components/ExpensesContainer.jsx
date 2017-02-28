@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchExpenses } from '../actions/expenses';
 import muiThemeable from 'material-ui/styles/muiThemeable';
+import AppBar from 'material-ui/AppBar';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import Link from 'react-router/lib/Link';
 import ExpensesList from './ExpensesList';
 import NoExpenses from './NoExpenses';
-import NewExpenseContainer from './NewExpenseContainer';
+import ExpensesToolbar from './ExpensesToolbar';
 
 const numberFormat = new Intl.NumberFormat('en-US', {
   style: 'currency',
@@ -23,7 +24,7 @@ class ExpensesContainer extends Component {
     return this.props.expenses && this.props.expenses.length;
   }
 
-  renderBlankSlate() {
+  renderNoExpenses() {
     return (
       <NoExpenses color={this.props.muiTheme.palette.disabledColor} />
     );
@@ -31,25 +32,35 @@ class ExpensesContainer extends Component {
 
   renderExpensesList() {
     return (
-      <ExpensesList
-        expenses={this.props.expenses}
-        numberFormat={numberFormat}
-      />
+      <div>
+        <ExpensesToolbar
+          expenses={this.props.expenses}
+          numberFormat={numberFormat}
+        />
+        <ExpensesList
+          expenses={this.props.expenses}
+          numberFormat={numberFormat}
+        />
+      </div>
     );
   }
 
   render() {
     return (
-      <div>
-        { this.hasExpenses() ? this.renderExpensesList() : this.renderBlankSlate() }
 
-        <Link to="/expenses/new">
-          <FloatingActionButton
-            style={{ position: 'fixed', right: '16px', bottom: '16px' }}
-          >
-            <ContentAdd />
-          </FloatingActionButton>
-        </Link>
+      <div>
+        <AppBar title="All expenses" />
+        <div style={{ maxWidth: '900px', margin: '0 auto' }}>
+          { this.hasExpenses() ? this.renderExpensesList() : this.renderNoExpenses() }
+
+          <Link to="/expenses/new">
+            <FloatingActionButton
+              style={{ position: 'fixed', right: '16px', bottom: '16px' }}
+            >
+              <ContentAdd />
+            </FloatingActionButton>
+          </Link>
+        </div>
       </div>
     );
   }

@@ -17,11 +17,11 @@ const fetchExpensesError = ({ message }) => ({
   error: message
 });
 
-export const fetchExpenses = (authToken) => {
+export const fetchExpenses = (authToken, params = {}) => {
   return function(dispatch) {
     dispatch(fetchExpensesStart());
 
-    return getExpenses(authToken)
+    return getExpenses(authToken, params)
       .then((response) => {
         response.json().then((json) => {
           if (response.ok) {

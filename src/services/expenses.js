@@ -1,7 +1,7 @@
-import { get, post } from './api';
+import { get, post, queryString } from './api';
 
-export const getExpenses = (authToken) => {
-  return get('expenses', { authToken });
+export const getExpenses = (authToken, params = {}) => {
+  return get(`expenses?${queryString(params)}`, { authToken });
 };
 
 export const postExpenses = (authToken, params) => {

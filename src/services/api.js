@@ -37,3 +37,9 @@ export const post = (endpoint, options = {}) => (
     Object.assign({}, options, { method: 'POST' })
   )
 );
+
+export const queryString = (params = {}) => (
+  Object.keys(params).map(k => (
+    `${encodeURIComponent(k)}=${encodeURIComponent(params[k])}`
+  )).join('&')
+);

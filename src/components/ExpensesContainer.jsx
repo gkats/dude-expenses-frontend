@@ -16,10 +16,6 @@ const numberFormat = new Intl.NumberFormat('en-US', {
 }).format;
 
 class ExpensesContainer extends Component {
-  componentDidMount() {
-    this.props.onMount(this.props.authToken);
-  }
-
   hasExpenses() {
     return this.props.expenses && this.props.expenses.length;
   }
@@ -32,16 +28,10 @@ class ExpensesContainer extends Component {
 
   renderExpensesList() {
     return (
-      <div>
-        <ExpensesToolbar
-          expenses={this.props.expenses}
-          numberFormat={numberFormat}
-        />
-        <ExpensesList
-          expenses={this.props.expenses}
-          numberFormat={numberFormat}
-        />
-      </div>
+      <ExpensesList
+        expenses={this.props.expenses}
+        numberFormat={numberFormat}
+      />
     );
   }
 
@@ -51,6 +41,10 @@ class ExpensesContainer extends Component {
       <div>
         <AppBar title="All expenses" />
         <div style={{ maxWidth: '900px', margin: '0 auto' }}>
+          <ExpensesToolbar
+            expenses={this.props.expenses}
+            numberFormat={numberFormat}
+          />
           { this.hasExpenses() ? this.renderExpensesList() : this.renderNoExpenses() }
 
           <Link to="/expenses/new">
@@ -67,12 +61,7 @@ class ExpensesContainer extends Component {
 };
 
 const mapStateToProps = (state) => ({
-  expenses: state.expenses.get('records').toJS(),
-  authToken: state.auth.token
+  expenses: state.expenses.get('records').toJS()
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  onMount: (token) => dispatch(fetchExpenses(token))
-});
-
-export default muiThemeable()(connect(mapStateToProps, mapDispatchToProps)(ExpensesContainer));
+export default muiThemeable()(connect(mapStateToProps)(ExpensesContainer));

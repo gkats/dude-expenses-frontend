@@ -1,4 +1,5 @@
-const API_URL = 'http://www.dude-expenses.dev/api';
+// API_HOST is set through webpack config
+const API_URL = `${API_HOST}/api`;
 
 const defaultOptions = Object.freeze({
   headers: {

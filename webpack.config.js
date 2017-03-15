@@ -21,7 +21,12 @@ const baseConfig = function() {
       path: path.join(__dirname, 'public'),
       publicPath: '/public',
       filename: 'bundle.js'
-    }
+    },
+    plugins: [
+      new webpack.DefinePlugin({
+        API_HOST: JSON.stringify(process.env.API_HOST || 'http://www.dude-expenses.dev')
+      })
+    ]
   }
 };
 
@@ -38,7 +43,8 @@ const prodConfig = function(env) {
       new webpack.DefinePlugin({
         'process.env': {
           'NODE_ENV': JSON.stringify('production')
-        }
+        },
+        API_HOST: JSON.stringify(process.env.API_HOST)
       }),
       new webpack.optimize.UglifyJsPlugin({
         beautify: false,

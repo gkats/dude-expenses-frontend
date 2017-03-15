@@ -1,32 +1,78 @@
-var path = require('path');
-var webpack = require('webpack');
+const webpack = require('webpack');
+const webpackMerge = require('webpack-merge');
+const path = require('path');
 
-module.exports = {
-  devtool: 'eval',
-  entry: path.join(__dirname, 'src', 'index.jsx'),
-  module: {
-    loaders: [
-      {
-        test: /\.jsx?$/,
-        include: path.join(__dirname, 'src'),
-        loader: 'babel-loader'
-      }
+const baseConfig = function() {
+  return {
+    entry: path.join(__dirname, 'src', 'index.jsx'),
+    module: {
+      loaders: [
+        {
+          test: /\.jsx?$/,
+          include: path.join(__dirname, 'src'),
+          loader: 'babel-loader'
+        }
+      ]
+    },
+    resolve: {
+      extensions: ['.js', '.jsx']
+    },
+    output: {
+      path: path.join(__dirname, 'public'),
+      publicPath: '/public',
+      filename: 'bundle.js'
+    }
+  }
+};
+
+const prodConfig = function(env) {
+  return webpackMerge(baseConfig(), {
+    stats: {
+      warnings: false
+    },
+    plugins: [
+      new webpack.LoaderOptionsPlugin({
+        minimize: true,
+        debug: false
+      }),
+      new webpack.DefinePlugin({
+        'process.env': {
+          'NODE_ENV': JSON.stringify('production')
+        }
+      }),
+      new webpack.optimize.UglifyJsPlugin({
+        beautify: false,
+        mangle: {
+          screw_ie8: true,
+          keep_fnames: true
+        },
+        compress: {
+          screw_ie8: true
+        },
+        comments: false
+      })
     ]
-  },
-  resolve: {
-    extensions: ['.js', '.jsx']
-  },
-  output: {
-    path: path.join(__dirname, 'public'),
-    publicPath: '/public',
-    filename: 'bundle.js'
-  },
-  devServer: {
-    contentBase: './public',
-    hot: true,
-    historyApiFallback: true
-  },
-  plugins: [
-    new webpack.HotModuleReplacementPlugin()
-  ]
+  });
+};
+
+const devConfig = function(env) {
+  return webpackMerge(baseConfig(), {
+    devtool: 'eval',
+    devServer: {
+      contentBase: './public',
+      hot: true,
+      historyApiFallback: true
+    },
+    plugins: [
+      new webpack.HotModuleReplacementPlugin()
+    ]
+  });
+};
+
+module.exports = function(env) {
+  if (env === 'production') {
+    return prodConfig();
+  } else {
+    return devConfig();
+  }
 };

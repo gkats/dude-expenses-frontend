@@ -5,6 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "./node_modules/webpack-dev-server/bin/webpack-dev-server.js",
+    "build": "./node_modules/webpack/bin/webpack.js --env=production",
+    "build:dev": "./node_modules/webpack/bin/webpack.js --env=development",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

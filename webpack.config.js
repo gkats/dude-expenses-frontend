@@ -51,6 +51,10 @@ const prodConfig = function(env) {
           screw_ie8: true
         },
         comments: false
+      }),
+      new HtmlWebpackPlugin({
+        filename: 'index.html',
+        template: './public/index.template.html'
       })
     ]
   });

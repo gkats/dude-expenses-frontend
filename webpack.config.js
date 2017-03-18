@@ -21,12 +21,7 @@ const baseConfig = function() {
       path: path.join(__dirname, 'public'),
       publicPath: '/public',
       filename: 'bundle.js'
-    },
-    plugins: [
-      new webpack.DefinePlugin({
-        API_HOST: JSON.stringify(process.env.API_HOST || 'http://www.dude-expenses.dev')
-      })
-    ]
+    }
   }
 };
 
@@ -70,7 +65,10 @@ const devConfig = function(env) {
       historyApiFallback: true
     },
     plugins: [
-      new webpack.HotModuleReplacementPlugin()
+      new webpack.HotModuleReplacementPlugin(),
+      new webpack.DefinePlugin({
+        API_HOST: JSON.stringify(process.env.API_HOST || 'http://www.dude-expenses.dev')
+      })
     ]
   });
 };

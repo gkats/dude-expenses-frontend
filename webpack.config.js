@@ -1,5 +1,6 @@
 const webpack = require('webpack');
 const webpackMerge = require('webpack-merge');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 
 const baseConfig = function() {
@@ -19,8 +20,7 @@ const baseConfig = function() {
     },
     output: {
       path: path.join(__dirname, 'public'),
-      publicPath: '/public',
-      filename: 'bundle.js'
+      filename: 'bundle.[chunkhash].js'
     }
   }
 };
@@ -64,10 +64,19 @@ const devConfig = function(env) {
       hot: true,
       historyApiFallback: true
     },
+    output: {
+      path: path.join(__dirname, 'public'),
+      publicPath: '/',
+      filename: 'bundle.js'
+    },
     plugins: [
       new webpack.HotModuleReplacementPlugin(),
       new webpack.DefinePlugin({
         API_HOST: JSON.stringify(process.env.API_HOST || 'http://www.dude-expenses.dev')
+      }),
+      new HtmlWebpackPlugin({
+        template: './public/index.template.html',
+        inject: 'body'
       })
     ]
   });

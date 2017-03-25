@@ -3,6 +3,7 @@ import muiThemeable from 'material-ui/styles/muiThemeable';
 import Dialog from 'material-ui/Dialog';
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
+import AutoComplete from 'material-ui/AutoComplete';
 import TextField from 'material-ui/TextField';
 import DatePicker from 'material-ui/DatePicker';
 import PriceField from './PriceField';
@@ -18,7 +19,7 @@ const errorsFor = (errors, name) => {
 
 const ExpenseForm = ({
   onClose, onSubmit, onChange, fields, errors,  dateTimeFormat, showActions,
-  numberFormat, muiTheme
+  numberFormat, muiTheme, tagsDataSource
 }) => {
   let actions = (
     <div>
@@ -50,12 +51,15 @@ const ExpenseForm = ({
             errorText={errorsFor(errors, 'priceCents')}
             numberFormat={numberFormat}
           />
-          <TextField
+          <AutoComplete
             name="tag"
             floatingLabelText="Tag"
             hintText="e.g. food"
+            dataSource={tagsDataSource}
+            filter={AutoComplete.fuzzyFilter}
+            maxSearchResults={5}
             value={fields.tag}
-            onChange={(event, value) => onChange('tag', value)}
+            onUpdateInput={(searchText, dataSource, params) => onChange('tag', searchText)}
             errorText={errorsFor(errors, 'tag')}
           />
           <DatePicker

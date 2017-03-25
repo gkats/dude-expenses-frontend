@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { changeField, submitForm } from '../actions/newExpense';
+import { fetchExpensesTags } from '../actions/expenses';
 import AppBar from 'material-ui/AppBar';
 import FlatButton from 'material-ui/FlatButton';
 import IconButton from 'material-ui/IconButton';
@@ -32,6 +33,10 @@ class NewExpenseContainer extends Component {
   constructor(props) {
     super(props);
     this.formSubmitted = this.formSubmitted.bind(this);
+  }
+
+  componentWillMount() {
+    this.props.onMount(this.props.authToken);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -68,6 +73,7 @@ class NewExpenseContainer extends Component {
             errors={this.props.errors}
             showActions={false}
             numberFormat={numberFormat}
+            tagsDataSource={this.props.tags}
           />
         </div>
       </div>
@@ -79,12 +85,14 @@ const mapStateToProps = (state) => ({
   authToken: state.auth.token,
   fields: state.newExpense.get('fields').toJS(),
   errors: state.newExpense.get('errors'),
-  success: state.newExpense.get('success')
+  success: state.newExpense.get('success'),
+  tags: state.expenses.get('tags').toJS()
 });
 
 const mapDispatchToProps = (dispatch) => ({
   onFieldChange: (name, value) => dispatch(changeField(name, value)),
-  onFormSubmit: (token, data) => dispatch(submitForm(token, data))
+  onFormSubmit: (token, data) => dispatch(submitForm(token, data)),
+  onMount: (token) => dispatch(fetchExpensesTags(token))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewExpenseContainer);

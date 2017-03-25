@@ -1,4 +1,6 @@
-import { getExpenses, postExpenses } from '../services/expenses';
+import {
+  getExpenses, postExpenses, getExpensesTags
+} from '../services/expenses';
 
 export const EXPENSES_FETCH = 'EXPENSES_FETCH';
 const fetchExpensesStart = () => ({
@@ -69,4 +71,39 @@ export const createExpense = (authToken, data) => {
       })
       .catch((error) => dispatch(createExpenseError({ message: 'Something went wrong' })));
   };
+};
+
+export const EXPENSES_TAGS_FETCH = 'EXPENSES_TAGS_FETCH';
+const fetchExpensesTagsStart = () => ({
+  type: EXPENSES_TAGS_FETCH
+});
+
+export const EXPENSES_TAGS_FETCH_SUCCESS = 'EXPENSES_TAGS_FETCH_SUCCESS';
+const fetchExpensesTagsSuccess = ({ tags }) => ({
+  type: EXPENSES_TAGS_FETCH_SUCCESS,
+  tags
+});
+
+export const EXPENSES_TAGS_FETCH_ERROR = 'EXPENSES_TAGS_FETCH_ERROR';
+const fetchExpensesTagsError = ({ message }) => ({
+  type: EXPENSES_TAGS_FETCH_ERROR,
+  error: message
+});
+
+export const fetchExpensesTags = (authToken) => {
+  return function(dispatch) {
+    dispatch(fetchExpensesTagsStart());
+
+    return getExpensesTags(authToken)
+      .then((response) => {
+        response.json().then((json) => {
+          if (response.ok) {
+            dispatch(fetchExpensesTagsSuccess(json));
+          } else {
+            dispatch(fetchExpensesTagsError(json));
+          }
+        })
+      })
+      .catch((error) => dispatch(fetchExpensesTagsError({ message: 'Something went wrong' })));
+  }
 };

@@ -1,11 +1,13 @@
 import { Map, List } from 'immutable';
 import {
   EXPENSES_FETCH, EXPENSES_FETCH_SUCCESS, EXPENSES_FETCH_ERROR,
-  EXPENSES_CREATE, EXPENSES_CREATE_SUCCESS, EXPENSES_CREATE_ERROR
+  EXPENSES_CREATE, EXPENSES_CREATE_SUCCESS, EXPENSES_CREATE_ERROR,
+  EXPENSES_TAGS_FETCH, EXPENSES_TAGS_FETCH_SUCCESS, EXPENSES_TAGS_FETCH_ERROR
 } from '../actions/expenses';
 
 const initialState = Map({
   records: List([]),
+  tags: List([]),
   loading: false
 });
 
@@ -30,6 +32,15 @@ function expenses(state = initialState, action) {
         records: state.get('records').push(action.expense)
       });
     case EXPENSES_CREATE_ERROR:
+      return state.set('loading', false);
+    case EXPENSES_TAGS_FETCH:
+      return state.set('loading', true);
+    case EXPENSES_TAGS_FETCH_SUCCESS:
+      return state.merge({
+        loading: false,
+        tags: action.tags
+      });
+    case EXPENSES_TAGS_FETCH_ERROR:
       return state.set('loading', false);
     default:
       return state;

@@ -10,3 +10,7 @@ export const postExpenses = (authToken, params) => {
     authToken
   });
 };
+
+export const getExpensesTags = (authToken) => {
+  return get('expenses/tags', { authToken });
+}

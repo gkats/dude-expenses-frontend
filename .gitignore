@@ -1,4 +1,4 @@
 node_modules
 *.log
-public/bundle.js*
+public/bundle.*.js*
 public/index.html

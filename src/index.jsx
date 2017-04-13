@@ -8,6 +8,10 @@ injectTapEventPlugin();
 
 const store = configureStore();
 
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js');
+}
+
 render(
   <Root store={store} />,
   document.getElementById('app')

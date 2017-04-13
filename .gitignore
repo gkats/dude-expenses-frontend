@@ -2,3 +2,5 @@ node_modules
 *.log
 public/bundle.*.js*
 public/index.html
+public/bundle.js
+public/sw.js

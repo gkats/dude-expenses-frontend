@@ -1,6 +1,7 @@
 const webpack = require('webpack');
 const webpackMerge = require('webpack-merge');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
 const path = require('path');
 
 const baseConfig = function() {
@@ -55,6 +56,16 @@ const prodConfig = function(env) {
       new HtmlWebpackPlugin({
         filename: 'index.html',
         template: './public/index.template.html'
+      }),
+      new SWPrecacheWebpackPlugin({
+        cacheId: 'dude-expenses',
+        filename: 'sw.js',
+        minify: true,
+        staticFileGlobs: [
+          'index.html',
+          'bundle*.js',
+          'icons/*.png'
+        ]
       })
     ]
   });
@@ -81,6 +92,16 @@ const devConfig = function(env) {
       new HtmlWebpackPlugin({
         template: './public/index.template.html',
         inject: 'body'
+      }),
+      new SWPrecacheWebpackPlugin({
+        cacheId: 'dude-expenses',
+        filename: 'sw.js',
+        minify: true,
+        staticFileGlobs: [
+          'index.html',
+          'bundle*.js',
+          'icons/*.png'
+        ]
       })
     ]
   });

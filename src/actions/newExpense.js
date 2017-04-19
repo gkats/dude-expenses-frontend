@@ -1,4 +1,4 @@
-import { createExpense } from './expenses';
+import { createExpense, updateExpense } from './expenses';
 import { validate } from '../validators/expenses';
 
 export const NEW_EXPENSE_FIELD_CHANGED = 'NEW_EXPENSE_FIELD_CHANGED';
@@ -21,7 +21,11 @@ export const submitForm = (authToken, data) => {
     if (Object.keys(errors).length) {
       dispatch(invalidateForm(errors));
     } else {
-      dispatch(createExpense(authToken, data));
+      if (data.id) {
+        dispatch(updateExpense(authToken, data));
+      } else {
+        dispatch(createExpense(authToken, data));
+      }
     }
   }
 };

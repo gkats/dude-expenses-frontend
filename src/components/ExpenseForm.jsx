@@ -59,6 +59,7 @@ const ExpenseForm = ({
             filter={AutoComplete.fuzzyFilter}
             maxSearchResults={5}
             value={fields.tag}
+            searchText={fields.tag}
             onUpdateInput={(searchText, dataSource, params) => onChange('tag', searchText)}
             errorText={errorsFor(errors, 'tag')}
           />

@@ -2,7 +2,7 @@ import React from 'react';
 import TextField from 'material-ui/TextField';
 
 const numberToCents = (number) => number * 100;
-const centsToNumber = (cents) => parseFloat(cents) / 100;
+const centsToNumber = (cents) => (parseFloat(cents) / 100).toFixed(2);
 
 class PriceField extends React.Component {
   constructor(props) {
@@ -13,11 +13,18 @@ class PriceField extends React.Component {
     this.changed = this.changed.bind(this);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (!this.props.value && nextProps.value) {
+      this.setState({ value: centsToNumber(nextProps.value) });
+    }
+  }
+
   changed(e) {
     e.preventDefault();
 
     if (!e.target.value) {
       this.setState({ value: e.target.value });
+      this.props.onChange(this.props.name, '');
     } else {
       let value = e.target.value
       if (value.match(/^\d+(\.(\d{1,2})?)?$/)) {

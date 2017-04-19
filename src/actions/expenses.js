@@ -1,5 +1,5 @@
 import {
-  getExpenses, postExpenses, getExpensesTags
+  getExpenses, postExpenses, getExpensesTags, getExpense, patchExpense
 } from '../services/expenses';
 
 export const EXPENSES_FETCH = 'EXPENSES_FETCH';
@@ -106,4 +106,75 @@ export const fetchExpensesTags = (authToken) => {
       })
       .catch((error) => dispatch(fetchExpensesTagsError({ message: 'Something went wrong' })));
   }
+};
+
+export const EXPENSE_FETCH = 'EXPENSE_FETCH';
+const fetchExpenseStart = () => ({
+  type: EXPENSE_FETCH
+});
+
+export const EXPENSE_FETCH_SUCCESS = 'EXPENSE_FETCH_SUCCESS';
+const fetchExpenseSuccess = (expense) => ({
+  type: EXPENSE_FETCH_SUCCESS,
+  expense
+});
+
+export const EXPENSE_FETCH_ERROR = 'EXPENSE_FETCH_ERROR';
+const fetchExpenseError = ({ message }) => ({
+  type: EXPENSE_FETCH_ERROR,
+  error: message
+});
+
+export const fetchExpense = (id, authToken) => {
+  return function(dispatch) {
+    dispatch(fetchExpenseStart());
+
+    return getExpense(authToken, id)
+      .then((response) => {
+        response.json().then((json) => {
+          if (response.ok) {
+            dispatch(fetchExpenseSuccess(json));
+          } else {
+            dispatch(fetchExpenseError(json));
+          }
+        })
+      })
+      .catch((error) => dispatch(fetchExpenseError({ message: 'Something went wrong' })));
+  }
+};
+
+export const EXPENSES_UPDATE = 'EXPENSES_UPDATE';
+const updateExpenseStart = () => ({
+  type: EXPENSES_UPDATE
+});
+
+export const EXPENSES_UPDATE_SUCCESS = 'EXPENSES_UPDATE_SUCCESS';
+const updateExpenseSuccess = (expense) => ({
+  type: EXPENSES_UPDATE_SUCCESS,
+  expense
+});
+
+export const EXPENSES_UPDATE_ERROR = 'EXPENSES_UPDATE_ERROR';
+const updateExpenseError = ({ message, errors }) => ({
+  type: EXPENSES_UPDATE_ERROR,
+  error: message,
+  errors
+});
+
+export const updateExpense = (authToken, data) => {
+  return function(dispatch) {
+    dispatch(updateExpenseStart());
+
+    return patchExpense(authToken, data)
+      .then((response) => {
+        response.json().then((json) => {
+          if (response.ok) {
+            dispatch(updateExpenseSuccess(json));
+          } else {
+            dispatch(updateExpenseError(json));
+          }
+        })
+      })
+      .catch((error) => dispatch(updateExpenseError({ message: 'Something went wrong' })));
+  };
 };

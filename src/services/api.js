@@ -39,6 +39,13 @@ export const post = (endpoint, options = {}) => (
   )
 );
 
+export const patch = (endpoint, options = {}) => (
+  apiFetch(
+    endpoint,
+    Object.assign({}, options, { method: 'PATCH' })
+  )
+);
+
 export const queryString = (params = {}) => (
   Object.keys(params).map(k => (
     `${encodeURIComponent(k)}=${encodeURIComponent(params[k])}`

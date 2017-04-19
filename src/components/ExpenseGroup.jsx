@@ -23,10 +23,15 @@ class ExpenseGroup extends Component {
     super(props);
     this.state = { open: false };
     this.clicked = this.clicked.bind(this);
+    this.itemClicked = this.itemClicked.bind(this);
   }
 
   clicked(e) {
     this.setState({ open: !this.state.open });
+  }
+
+  itemClicked(id, e) {
+    window.location = `/expenses/${id}`;
   }
 
   totalPrice() {
@@ -105,7 +110,11 @@ class ExpenseGroup extends Component {
 
   renderNestedItem(item) {
     return (
-      <ListItem key={item.id} innerDivStyle={{paddingLeft: '6px', paddingRight: '6px'}}>
+      <ListItem
+        key={item.id}
+        innerDivStyle={{paddingLeft: '6px', paddingRight: '6px', paddingBottom: '28px'}}
+        onTouchTap={this.itemClicked.bind(this, item.id)}
+      >
         <div style={tagStyle}>
           { item.tag }
         </div>

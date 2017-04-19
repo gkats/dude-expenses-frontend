@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { changeField, submitForm } from '../actions/newExpense';
-import { fetchExpensesTags } from '../actions/expenses';
+import { fetchExpensesTags, fetchExpense } from '../actions/expenses';
 import AppBar from 'material-ui/AppBar';
 import FlatButton from 'material-ui/FlatButton';
 import IconButton from 'material-ui/IconButton';
@@ -35,14 +35,21 @@ class NewExpenseContainer extends Component {
     this.formSubmitted = this.formSubmitted.bind(this);
   }
 
-  componentWillMount() {
-    this.props.onMount(this.props.authToken);
+  componentDidMount() {
+    this.props.fetchTags(this.props.authToken);
+    if (this.isEditing()) {
+      this.props.fetchExpense(this.props.params.id, this.props.authToken);
+    }
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.success && !this.props.success) {
       redirectToRoot();
     }
+  }
+
+  isEditing() {
+    return this.props.params.id && this.props.params.id !== 'new';
   }
 
   formSubmitted(e) {
@@ -59,7 +66,7 @@ class NewExpenseContainer extends Component {
     return (
       <div>
         <AppBar
-          title="Add expense"
+          title={this.isEditing() ? "Edit expense" : "Add expense"}
           iconElementLeft={closeButton()}
           iconElementRight={this.saveButton()}
         />
@@ -84,7 +91,7 @@ class NewExpenseContainer extends Component {
 const mapStateToProps = (state) => ({
   authToken: state.auth.token,
   fields: state.newExpense.get('fields').toJS(),
-  errors: state.newExpense.get('errors'),
+  errors: state.newExpense.get('errors').toJS(),
   success: state.newExpense.get('success'),
   tags: state.expenses.get('tags').toJS()
 });
@@ -92,7 +99,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   onFieldChange: (name, value) => dispatch(changeField(name, value)),
   onFormSubmit: (token, data) => dispatch(submitForm(token, data)),
-  onMount: (token) => dispatch(fetchExpensesTags(token))
+  fetchTags: (token) => dispatch(fetchExpensesTags(token)),
+  fetchExpense: (id, token) => dispatch(fetchExpense(id, token))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewExpenseContainer);

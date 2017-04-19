@@ -25,7 +25,7 @@ const Root = ({ store }) => (
         <IndexRoute component={App} />
         <Route path="sign_up" component={SignUp} />
         <Route path="sign_in" component={SignIn} />
-        <Route path="expenses/new" component={NewExpenseContainer} />
+        <Route path="expenses/:id" component={NewExpenseContainer} />
       </Route>
     </Router>
   </Provider>

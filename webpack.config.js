@@ -21,6 +21,7 @@ const baseConfig = function() {
     },
     output: {
       path: path.join(__dirname, 'public'),
+      publicPath: '/',
       filename: 'bundle.[chunkhash].js'
     }
   }

@@ -66,7 +66,8 @@ const prodConfig = function(env) {
           'index.html',
           'bundle*.js',
           'icons/*.png'
-        ]
+        ],
+        mergeStaticsConfig: true
       })
     ]
   });

@@ -1,4 +1,4 @@
-import { get, post, patch, queryString } from './api';
+import { get, post, patch, doDelete, queryString } from './api';
 
 export const getExpenses = (authToken, params = {}) => {
   return get(`expenses?${queryString(params)}`, { authToken });
@@ -27,4 +27,8 @@ export const patchExpense = (authToken, params) => {
     body: JSON.stringify(params),
     authToken
   });
-}
+};
+
+export const deleteExpense = (authToken, id) => {
+  return doDelete(`expenses/${id}`, { authToken });
+};

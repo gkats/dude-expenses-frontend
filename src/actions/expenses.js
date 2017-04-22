@@ -1,5 +1,6 @@
 import {
-  getExpenses, postExpenses, getExpensesTags, getExpense, patchExpense
+  getExpenses, postExpenses, getExpensesTags, getExpense, patchExpense,
+  deleteExpense
 } from '../services/expenses';
 
 export const EXPENSES_FETCH = 'EXPENSES_FETCH';
@@ -176,5 +177,40 @@ export const updateExpense = (authToken, data) => {
         })
       })
       .catch((error) => dispatch(updateExpenseError({ message: 'Something went wrong' })));
+  };
+};
+
+export const EXPENSES_DESTROY = 'EXPENSES_DESTROY';
+const destroyExpenseStart = () => ({
+  type: EXPENSES_DESTROY
+});
+
+export const EXPENSES_DESTROY_SUCCESS = 'EXPENSES_DESTROY_SUCCESS';
+const destroyExpenseSuccess = ({ id }) => ({
+  type: EXPENSES_DESTROY_SUCCESS,
+  id
+});
+
+export const EXPENSES_DESTROY_ERROR = 'EXPENSES_DESTROY_ERROR';
+const destroyExpenseError = ({ message }) => ({
+  type: EXPENSES_DESTROY_ERROR,
+  error: message
+});
+
+export const destroyExpense = (authToken, id) => {
+  return function(dispatch) {
+    dispatch(destroyExpenseStart());
+
+    return deleteExpense(authToken, id)
+      .then((response) => {
+        response.json().then((json) => {
+          if (response.ok) {
+            dispatch(destroyExpenseSuccess({ id }));
+          } else {
+            dispatch(destroyExpenseError(json));
+          }
+        })
+      })
+      .catch((error) => dispatch(destroyExpenseError({ message: 'Something went wrong' })));
   };
 };

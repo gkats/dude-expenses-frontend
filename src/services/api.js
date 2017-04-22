@@ -46,6 +46,13 @@ export const patch = (endpoint, options = {}) => (
   )
 );
 
+export const doDelete = (endpoint, options = {}) => (
+  apiFetch(
+    endpoint,
+    Object.assign({}, options, { method: 'DELETE' })
+  )
+);
+
 export const queryString = (params = {}) => (
   Object.keys(params).map(k => (
     `${encodeURIComponent(k)}=${encodeURIComponent(params[k])}`

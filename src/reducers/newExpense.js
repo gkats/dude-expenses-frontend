@@ -5,7 +5,8 @@ import {
 import {
   EXPENSE_FETCH, EXPENSE_FETCH_SUCCESS,
   EXPENSES_CREATE, EXPENSES_CREATE_SUCCESS, EXPENSES_CREATE_ERROR,
-  EXPENSES_UPDATE, EXPENSES_UPDATE_SUCCESS, EXPENSES_UPDATE_ERROR
+  EXPENSES_UPDATE, EXPENSES_UPDATE_SUCCESS, EXPENSES_UPDATE_ERROR,
+  EXPENSES_DESTROY, EXPENSES_DESTROY_SUCCESS
 } from '../actions/expenses';
 
 const initialState = Map({
@@ -73,6 +74,15 @@ function newExpense(state = initialState, action) {
       return state.merge({
         errors: Map(action.errors)
       });
+    case EXPENSES_DESTROY:
+      return state.merge({
+        errors: {},
+        success: false
+      });
+    case EXPENSES_DESTROY_SUCCESS:
+      return state.merge(
+        Object.assign({}, initialState, { success: true })
+      );
     default:
       return state;
   };

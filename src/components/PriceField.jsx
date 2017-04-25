@@ -3,20 +3,15 @@ import TextField from 'material-ui/TextField';
 
 const numberToCents = (number) => number * 100;
 const centsToNumber = (cents) => (parseFloat(cents) / 100).toFixed(2);
+const displayNumber = (cents) => (cents ? centsToNumber(cents) : '');
 
 class PriceField extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: props.value ? centsToNumber(props.value) : ''
+      value: displayNumber(props.value)
     };
     this.changed = this.changed.bind(this);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (!this.props.value && nextProps.value) {
-      this.setState({ value: centsToNumber(nextProps.value) });
-    }
   }
 
   changed(e) {
@@ -26,12 +21,16 @@ class PriceField extends React.Component {
       this.setState({ value: e.target.value });
       this.props.onChange(this.props.name, '');
     } else {
-      let value = e.target.value
+      let value = e.target.value;
       if (value.match(/^\d+(\.(\d{1,2})?)?$/)) {
         this.setState({ value: e.target.value });
         this.props.onChange(this.props.name, numberToCents(value).toString());
       }
     }
+  }
+
+  value() {
+    return this.state.value || displayNumber(this.props.value);
   }
 
   render() {
@@ -42,7 +41,7 @@ class PriceField extends React.Component {
           type="tel"
           pattern="[0-9]*"
           noValidate
-          value={this.state.value}
+          value={this.value()}
           onChange={this.changed}
           name={this.props.name}
           autoFocus={this.props.autoFocus}
